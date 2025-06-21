@@ -14,18 +14,18 @@ export const signup = async (req, res) => {
         return res.status(400).json({message: "Password must be at least 6 characters"});
       }
 
-      const user = await User.findOne({email})
+      const user = await User.findOne({email});
 
       if (user) return res.status(400).json ({message: "email already exists"});
 
       const salt = await bcrypt.genSalt(10)
-      const hashedPassword = await bcrypt.hash(password, salt)
+      const hashedPassword = await bcrypt.hash(password, salt);
 
       const newUser = new User({
         fullName,
         email,
         password: hashedPassword
-      })
+      });
 
       if(newUser){
          generateToken(newUser._id, res)
@@ -53,7 +53,7 @@ export const login = async (req, res) => {
       const user = await User.findOne({email});
 
       if(!user){
-         return res.status(400).json({message: "Invalid credentials"})
+         return res.status(400).json({message: "Invalid credentials"});
       }
 
     const isPasswordCorrect =  await bcrypt.compare(password, user.password);
@@ -79,7 +79,7 @@ export const login = async (req, res) => {
 
 export const logout = (req, res) => {
     try{
-      res.cookie("jwt", "", {maxAge:0})
+      res.cookie("jwt", "", {maxAge:0});
       res.status(200).json({message: "Logged out successfully"});
         
     }
@@ -115,4 +115,4 @@ export const checkAuth = (req, res) => {
        console.log("Error in checkAuth controller", error.message);
       res.status(500).json({message: "Internal Server Error"});
     }
-}
+};
