@@ -10,14 +10,20 @@ import {useEffect} from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom'; 
 import { Loader } from 'lucide-react';
 import { Toaster } from "react-hot-toast";
+import { useThemeStore } from './store/useThemeStore';
 
 
 const App = () => {
   const {authUser, checkAuth, isCheckingAuth} = useAuthStore();
+  const theme = useThemeStore(state => state.theme);
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
    
   console.log({authUser});
 
@@ -28,9 +34,8 @@ const App = () => {
   ); 
 
   return (
-    <div >
+    <div>
       <Navbar />
-
       <Routes>
         <Route path="/" element={authUser ? <HomePage /> : <Navigate to="/login" />} />
         <Route path="/signup" element={!authUser ? <SignUpPage /> : <Navigate to="/" />} />
