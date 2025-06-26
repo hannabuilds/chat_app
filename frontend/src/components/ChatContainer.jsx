@@ -1,6 +1,8 @@
 import { useChatStore } from "../store/useChatStore";
 import { useEffect, useRef } from "react";
 import { useAuthStore } from "../store/useAuthStore";
+import ChatHeader from "./ChatHeader";
+import MessageInput from "./MessageInput";
 
 
 const ChatContainer = () => {
@@ -12,6 +14,7 @@ const ChatContainer = () => {
     subscribeToMessages,
     unsubscribeFromMessages,
   } = useChatStore();
+  
   const { authUser } = useAuthStore();
   const messageEndRef = useRef(null);
 
@@ -48,7 +51,7 @@ const ChatContainer = () => {
                 <div key={message._id} className={`chat ${message.senderId === authUser._id ? "chat-end" : "chat-start"}`} ref={messageEndRef}>
                     <div className=" chat-image avatar">
                         <div className="size-10 rounded-full border">
-                            <img src={message.senderId === authUser._id ? authUser.profilePic || "avatar.png" : selectedUser.profilePic || "avatar.png"} alt="Profile Picture"/>
+                            <img src={message.senderId === authUser._id ? authUser.profilePic || "/avatar.png" : selectedUser.profilePic || "/avatar.png"} alt="Profile Picture"/>
                       </div>
                     </div>
                     <div className="chat-header mb-1">
